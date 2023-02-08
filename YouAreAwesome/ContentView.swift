@@ -9,9 +9,17 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var messageString = ""
+    @State private var imageName = ""
     
     var body: some View {
         VStack {
+            
+            Image(imageName)
+                .resizable()
+                .scaledToFit()
+                .cornerRadius(30)
+                .shadow(radius: 30)
+                .padding()
             
             Spacer()
             
@@ -39,6 +47,7 @@ struct ContentView: View {
                 
                 // Replaced with a swifty Ternary Operator
                 messageString = (messageString == message1 ? message2 : message1)
+                imageName = (imageName == "image0" ? "image1" : "image0")
                 
             }
             .buttonStyle(.borderedProminent)
