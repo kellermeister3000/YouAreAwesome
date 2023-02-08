@@ -12,7 +12,7 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-
+            
             Spacer()
             
             Text(messageString)
@@ -23,26 +23,22 @@ struct ContentView: View {
                 .foregroundColor(Color.red)
                 .frame(height: 150)
                 .frame(maxWidth: .infinity)
-            //                .border(.orange, width: 1)
                 .padding()
             
             Spacer()
             
-            HStack {
+            Button("Show Message") {
+                let message1 = "You Are Awesome!"
+                let message2 = "You Are Great!"
                 
-                Button("Awesome") {
-                    messageString = "You Are Awesome!"
+                if messageString == message1 {
+                    messageString = message2
+                } else {
+                    messageString = message1
                 }
-                .buttonStyle(.borderedProminent)
-                
-                Spacer()
-                
-                Button("Great") {
-                    messageString = "You Are Great!"
-                }
-                .buttonStyle(.borderedProminent)
             }
-            .padding()
+            .buttonStyle(.borderedProminent)
+            
         }
     }
 }
