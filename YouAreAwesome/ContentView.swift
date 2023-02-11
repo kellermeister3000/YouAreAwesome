@@ -10,20 +10,11 @@ import SwiftUI
 struct ContentView: View {
     @State private var messageString = ""
     @State private var imageName = ""
-    @State private var imageNumber = 0
-    @State private var messageNumber = 0
+    @State private var lastMessageNumber = -1
+    @State private var lastImageNumber = -1
     
     var body: some View {
         VStack {
-            
-            Image(imageName)
-                .resizable()
-                .scaledToFit()
-                .cornerRadius(30)
-                .shadow(radius: 30)
-                .padding()
-            
-            Spacer()
             
             Text(messageString)
                 .font(.largeTitle)
@@ -35,7 +26,14 @@ struct ContentView: View {
                 .frame(maxWidth: .infinity)
                 .padding()
             
-            Spacer()
+            Image(imageName)
+                .resizable()
+                .scaledToFit()
+                .cornerRadius(30)
+                .shadow(radius: 30)
+                .padding()
+            
+           Spacer()
             
             Button("Show Message") {
                 let messages = ["You Are Awesome!",
@@ -44,9 +42,28 @@ struct ContentView: View {
                                 "Fabulous, That's You!",
                                 "You Make Me Smile",
                                 "When The Genius Bar Needs Help, They Call You!"]
-                messageString = messages[Int.random(in: 0...messages.count-1)]
                 
+                // generate a random messageNumber to use as an index
+                // if messageNumber == lastMessageNumber {
+                //      keep generating a new random messageNumber
+                //      until you get a messageNumber != lastMessageNumber
+                // set messageString to messages [messageNumber]
+                // update the lastMessageNumber with messageNumber
+                
+                var messageNumber = Int.random(in: 0...messages.count-1)
+                while messageNumber == lastMessageNumber {
+                    messageNumber = Int.random(in: 0...messages.count-1)
+                }
+                
+                messageString = messages[messageNumber]
+                lastMessageNumber = messageNumber
+                
+                var imageNumber = Int.random(in: 0...9)
+                while imageNumber == lastImageNumber {
+                    imageNumber = Int.random(in: 0...9)
+                }
                 imageName = "image\(Int.random(in: 0...9))"
+                lastImageNumber = imageNumber
                 
             }
             .buttonStyle(.borderedProminent)
