@@ -15,6 +15,7 @@ struct ContentView: View {
     @State private var lastImageNumber = -1
     @State private var lastSoundNumber = -1
     @State private var audioPlayer: AVAudioPlayer!
+    @State private var soundIsOn = true
     
     var body: some View {
         VStack {
@@ -36,33 +37,51 @@ struct ContentView: View {
                 .shadow(radius: 30)
                 .padding()
             
-           Spacer()
+            Spacer()
             
-            Button("Show Message") {
-                let messages = ["You Are Awesome!",
-                                "You Are Great!",
-                                "You Are Fantastic",
-                                "Fabulous, That's You!",
-                                "You Make Me Smile",
-                                "When The Genius Bar Needs Help, They Call You!"]
+            HStack {
                 
-                lastMessageNumber = nonRepeatingRandom(lastNumber:
-                    lastMessageNumber, upperBound: messages.count-1)
-                messageString = messages[lastMessageNumber]
+                Text("Sound On:")
                 
+                Toggle("", isOn: $soundIsOn)
+                    .labelsHidden()
+                    .onChange(of: soundIsOn) { _ in
+                        if audioPlayer != nil && audioPlayer.isPlaying {
+                            audioPlayer.stop()
+                        }
+                    }
                 
-                lastImageNumber = nonRepeatingRandom(lastNumber:
-                    lastImageNumber, upperBound: 9)
-                imageName = "image\(lastImageNumber)"
+                Spacer()
                 
-                lastSoundNumber = nonRepeatingRandom(lastNumber:
-                    lastSoundNumber, upperBound: 5)
-                playSound(soundName: "sound\(lastSoundNumber)")
-                
+                Button("Show Message") {
+                    let messages = ["You Are Awesome!",
+                                    "You Are Great!",
+                                    "You Are Fantastic",
+                                    "Fabulous, That's You!",
+                                    "You Make Me Smile",
+                                    "When The Genius Bar Needs Help, They Call You!"]
+                    
+                    lastMessageNumber = nonRepeatingRandom(lastNumber:
+                                                            lastMessageNumber, upperBound: messages.count-1)
+                    messageString = messages[lastMessageNumber]
+                    
+                    
+                    lastImageNumber = nonRepeatingRandom(lastNumber:
+                                                            lastImageNumber, upperBound: 9)
+                    imageName = "image\(lastImageNumber)"
+                    
+                    lastSoundNumber = nonRepeatingRandom(lastNumber:
+                                                            lastSoundNumber, upperBound: 5)
+                    if soundIsOn {
+                        playSound(soundName: "sound\(lastSoundNumber)")
+                    }
+                    
+                }
+                .buttonStyle(.borderedProminent)
             }
-            .buttonStyle(.borderedProminent)
             
         }
+        .padding()
     }
     
     func nonRepeatingRandom(lastNumber: Int, upperBound: Int) -> Int {
